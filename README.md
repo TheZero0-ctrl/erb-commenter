@@ -27,6 +27,7 @@ This is a simple VS Code extension that allows you to comment out your ERB files
 - Revise and optimize the code
 - Improve handling of whitespace
 - Test for additional cases to ensure full coverage
+- Currently only work for html.erb files, make it work for other files like js.erb
 
 ## Licensing
 

@@ -17,9 +17,9 @@ function toggleErbComment(code) {
 // Toggles the HTML comment by replacing the start and end of the comment with an empty string and vice versa
 function toggleHtmlComment(code) {
   if (code.trim().startsWith(HTML_COMMENT_START) || code.trim().endsWith(HTML_COMMENT_END)) {
-    return code.replace(HTML_COMMENT_START, '').replace(HTML_COMMENT_END, '');
+    return code.replace(HTML_COMMENT_START, '').replace(HTML_COMMENT_END, '').replace(ERB_COMMENT, '<%');
   } else {
-    return HTML_COMMENT_START + code + HTML_COMMENT_END;
+    return HTML_COMMENT_START + code.replace('<%', ERB_COMMENT) + HTML_COMMENT_END;
   }
 }
 
@@ -92,11 +92,11 @@ function activate(context) {
               commentedLines.push(toggleHtmlComment(line))
               for (let index = 1; index < slicedLines.length; index++) {
                 if (slicedLines[index].trim().endsWith("-->")) {
-                  commentedLines.push(toggleHtmlComment(slicedLines[index]))
+                  commentedLines.push(toggleHtmlComment(slicedLines[index].replace(ERB_COMMENT, "<%")))
                   count = index
                   break
                 } else {
-                  commentedLines.push(slicedLines[index])
+                  commentedLines.push(slicedLines[index].replace(ERB_COMMENT, "<%"))
                 }
                 
               }
@@ -104,27 +104,27 @@ function activate(context) {
               for (let index = 1; index < slicedLines.length; index++) {
                 if (!slicedLines[index].trim().startsWith("<%") && !slicedLines[index].trim().startsWith("<%#") && !slicedLines[index].trim().startsWith("<!--")){
                   if(index == slicedLines.length - 1 && index == 1){
-                    commentedLines.push("<!--" + slicedLines[0])
-                    commentedLines.push(slicedLines[1] + "-->")
+                    commentedLines.push("<!--" + slicedLines[0].replace("<%", ERB_COMMENT))
+                    commentedLines.push(slicedLines[1].replace("<%", ERB_COMMENT) + "-->")
                     count = index
                     break
                   } else if(index == 1) {
-                    commentedLines.push("<!--" + slicedLines[0])
-                    commentedLines.push(slicedLines[1])
+                    commentedLines.push("<!--" + slicedLines[0].replace("<%", ERB_COMMENT))
+                    commentedLines.push(slicedLines[1].replace("<%", ERB_COMMENT))
                   } else {
                     if (index == slicedLines.length - 1) {
-                      commentedLines.push(slicedLines[index] + "-->")
+                      commentedLines.push(slicedLines[index].replace("<%", ERB_COMMENT) + "-->")
                       count = index
                       break
                     } else {
-                      commentedLines.push(slicedLines[index])
+                      commentedLines.push(slicedLines[index].replace("<%", ERB_COMMENT))
                     }
                   }
                 } else {
                   if (index == 1) {
                     commentedLines.push(toggleHtmlComment(slicedLines[0]))
                   } else {
-                    commentedLines.push(slicedLines[index-1] + "-->")
+                    commentedLines.push(slicedLines[index-1].replace("<%", ERB_COMMENT) + "-->")
                     count = index - 1
                   }
                   break
