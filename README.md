@@ -17,9 +17,12 @@ This is a simple VS Code extension that allows you to comment out your ERB files
 
 ## Release Notes
 
-### 1.0.0
+### 0.0.1
 
 - Initial release of ERB Commenter
+
+### 0.0.2
+- Fix some bugs
 
 
 ## improvements
