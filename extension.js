@@ -88,6 +88,7 @@ function activate(context) {
                   break
                 } else if(index == 1) {
                   commentedLines.push("<!--" + slicedLines[0].replace("<%", ERB_COMMENT))
+                  commentedLines.push(slicedLines[index].replace("<%", ERB_COMMENT))
                 } else {
                   if (index == slicedLines.length - 1) {
                     commentedLines.push(slicedLines[index].replace("<%", ERB_COMMENT) + "-->")
@@ -101,8 +102,8 @@ function activate(context) {
                 if (index == 1) {
                   commentedLines.push(toggleHtmlComment(slicedLines[0]))
                 } else {
-                  commentedLines.push(slicedLines[index-1].replace("<%", ERB_COMMENT) + "-->")
-                  count = index - 1
+                  commentedLines.push(slicedLines[index].replace("<%", ERB_COMMENT) + "-->")
+                  count = index
                 }
                 break
               }
